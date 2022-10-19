@@ -8,32 +8,72 @@ public class Sudoku {
     private Random rand = new Random();
 
     public Sudoku() {
-        // fill();
+        fill();
         generateFirstBoxes();
+        generateRemaining();
         print();
+    }
+
+    private void generateRemaining() {
+
+        //if (grid[row][col] == 0) ist mein problem weil wenn ich ein schritt zurpck mache dann ist das feld ja nichtmehr 0 sondern etwas anderes
+        //also muss ich da was anderes machn
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                // if (grid[row][col] == 0) {
+                    if (!generateNumber(row, col)) {
+                        if (col != 0) {
+                            col-=2;
+                        } else {
+                            row-=2;
+                            col=8;
+                        }
+                    } 
+                // }
+            }
+        }
+
+    }
+
+    private boolean generateNumber(int row, int col) {
+
+        int num = rand.nextInt(9) + 1;
+
+        for (int i = 0; i < 9; i++) {
+            if (isSafe(row, col, num)) {
+                grid[row][col] = num;
+                return true;
+            } else {
+                if (num < 9) {
+                    num++;
+                } else {
+                    num = 1;
+                }
+            }
+        }
+        return false;
     }
 
     private boolean isSafe(int row, int col, int num) {
         for (int i = 0; i < 9; i++) {
 
-            if(grid[row][i] == num) {
+            if (grid[row][i] == num) {
                 return false;
             }
-            if(grid[i][col] == num) {
+            if (grid[i][col] == num) {
                 return false;
             }
         }
 
-        int startRow = row-row%3;
-        int startCol = col-col%3;
+        int startRow = row - row % 3;
+        int startCol = col - col % 3;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if(grid[i+startRow][j+startCol] == num) {
+                if (grid[i + startRow][j + startCol] == num) {
                     return false;
                 }
             }
         }
-
 
         return true;
     }
