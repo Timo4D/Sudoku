@@ -5,31 +5,49 @@ import java.util.Random;
 public class Sudoku {
 
     private int[][] grid = new int[9][9];
+    private int[][] steps = {
+            { 0, 3 }, { 0, 4 }, { 0, 5 }, { 0, 6 }, { 0, 7 }, { 0, 8 },
+            { 1, 3 }, { 1, 4 }, { 1, 5 }, { 1, 6 }, { 1, 7 }, { 1, 8 },
+            { 2, 3 }, { 2, 4 }, { 2, 5 }, { 2, 6 }, { 2, 7 }, { 2, 8 },
+            { 3, 0 }, { 3, 1 }, { 3, 2 }, { 3, 6 }, { 3, 7 }, { 3, 8 }
+    };
     private Random rand = new Random();
 
     public Sudoku() {
-        fill();
+        // fill();
+
         generateFirstBoxes();
-        generateRemaining();
+        test();
+        // generateRemaining();
         print();
+    }
+
+
+    //Geht zwar einen schritt zurück, aber das ist heißt z.B. bei einem zeilenumbruch
+    //nicht unbedingt dass dass auch die menge der lösungen verändert
+    private void test() {
+        for (int step = 0; step < 13; step++) {
+            if (!generateNumber(steps[step][0], steps[step][1])) {
+                if (step != 0) {
+                    step-=2;
+                } else {
+                    System.out.println("Scheiße");
+                }
+            }
+        }
+        System.out.println("Blöd gelaufen");
     }
 
     private void generateRemaining() {
 
-        //if (grid[row][col] == 0) ist mein problem weil wenn ich ein schritt zurpck mache dann ist das feld ja nichtmehr 0 sondern etwas anderes
-        //also muss ich da was anderes machn
+        // if (grid[row][col] == 0) ist mein problem weil wenn ich ein schritt zurpck
+        // mache dann ist das feld ja nichtmehr 0 sondern etwas anderes
+        // also muss ich da was anderes machn
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
-                // if (grid[row][col] == 0) {
-                    if (!generateNumber(row, col)) {
-                        if (col != 0) {
-                            col-=2;
-                        } else {
-                            row-=2;
-                            col=8;
-                        }
-                    } 
-                // }
+                if (grid[row][col] == 0) {
+
+                }
             }
         }
 
